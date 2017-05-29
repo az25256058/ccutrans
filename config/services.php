@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'facebook' => [
+        'client_id' => '105658340029632',
+        'client_secret' => '75ec3c356fa928c55671c833e5fef982',
+        'redirect' => 'http://localhost/ccutrans/public/login/facebook/callback',
+    ],
+
 ];

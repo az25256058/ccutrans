@@ -71,7 +71,7 @@ class LoginController extends Controller
         $exists = User::where('facebook_id', $user->getID())->first();
 
         if(!$exists){
-            User::create([
+            $exists = User::create([
                 'facebook_id' => $user->getID(),
                 'name' => $user->getName(),
                 'email' => $user->getEmail(),

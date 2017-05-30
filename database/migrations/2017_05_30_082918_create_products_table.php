@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->enum('category', ['食物', '男裝', '女裝', '日用品', '美妝產品', '書籍', '數位家電','傢俱','其他']);
 
             $table->integer('amount')->unsigned();
-            $table->integer('price')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

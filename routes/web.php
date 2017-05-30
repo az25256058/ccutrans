@@ -29,7 +29,7 @@ Route::group(['middleware' => ['facebookLogin']], function (){
     Route::get('/seller', 'SellController@index');
     Route::get('/purchaser', 'PurchaseController@index');
 
-    Route::post('/sellstore','SellController@store');
+    Route::post('/post','SellController@store');
 });
 
 

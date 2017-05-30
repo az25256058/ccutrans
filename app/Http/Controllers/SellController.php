@@ -7,6 +7,7 @@ use App\Http\Requests\UploadRequest;
 use App\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Photo;
 
 class SellController extends Controller
 {
@@ -15,34 +16,39 @@ class SellController extends Controller
         return view('sell');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+        /*$this->validate($request,[
+            'name' => 'required',
+            'price' => ''
+        ]);*/
 
-       $product = Product::insertGetId([
+        $files = $request->file('images');
 
-            'name' =>$request->input('name'),
-            'price' =>$request->input('price'),
-            'category'=>$request->input('category'),
-            'amount'=>$request->input('amount'),
-            'description'=>$request->description,
-            'user_id'=>Auth::id()
+
+        $product = Product::insertGetId([
+            'name' => $request->name,
+            'price' => $request->price,
+            'category' => $request->category,
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'user_id' => Auth::id()
         ]);
 
-       echo $request->image->path();
 
-       foreach($request->image as $photo){
-            echo $photo;
-           $filename = $photo->store('photos');
+        foreach ($files as $file) {
 
-           Photo::insert([
+            $photo_name = sprintf('%s-%s', md5(microtime(true)), str_random(8) );
+            $photo_type = sprintf('%s', $file->guessExtension());
 
-              'product_id' =>$product,
-               'photo_name' =>$filename,
-               'photo_type' =>'png'
+            $file->storeAs('public', $photo_name.'.'.$photo_type);
 
-           ]);
-
-
-       }
+            Photo::insert([
+                'product_id' => $product,
+                'photo_name' => $photo_name,
+                'photo_type' => $photo_type,
+            ]);
+        }
         return redirect('/seller');
     }
 

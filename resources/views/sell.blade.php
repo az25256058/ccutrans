@@ -44,12 +44,29 @@
                 <div class="jumbotron" style="padding: 50px;">
                     <h2 class="display-3">Share your lives</h2>
                     <p class="lead">Attention : The size of photo must be less than 85KB.</p>
-                    <form class="form-horizontal" method="post" action="post/image" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="post" action="/sellstore" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
+
+                        <input type="text" name="name"/>
+                        <br/>
+                        <input type="number" name="price" min="0">
+                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" name="category">
+                            <option selected>Choose...</option>
+                            <option value="1">食物</option>
+                            <option value="2">男裝</option>
+                            <option value="3">女裝</option>
+                            <option value="4">日用品</option>
+                            <option value="5">美妝</option>
+                            <option value="6">書籍</option>
+                            <option value="7">數位家電</option>
+                            <option value="8">傢俱</option>
+                            <option value="9">其他</option>
+                        </select>
+                    <br/>
                         <label for="name">
                             上傳照片</label>
-                        <input type="file" name="image"/> <br/>
+                        <input type="file" name="image" multiple/> <br/>
                         @if($errors -> has('image'))
                             <span class="help-block">
                                         <strong>{{ $errors->first('image') }}</strong>

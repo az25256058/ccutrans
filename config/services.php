@@ -36,9 +36,9 @@ return [
     ],
 
     'facebook' => [
-        'client_id' => '105658340029632',
-        'client_secret' => '75ec3c356fa928c55671c833e5fef982',
-        'redirect' => 'http://localhost/ccutrans/public/login/facebook/callback',
+        'client_id' => '1906107316303438',
+        'client_secret' => '60b19e87f8405ad415fe3e192cfff45b',
+        'redirect' => 'http://ccutrans.dev/login/facebook/callback',
     ],
 
 ];

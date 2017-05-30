@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->enum('category', ['食物', '男裝', '女裝', '日用品', '美妝產品', '書籍', '數位家電', '其他']);
             $table->integer('amount')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();

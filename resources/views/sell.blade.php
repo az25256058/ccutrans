@@ -49,7 +49,7 @@
 
                         <label for="name">
                             上傳照片</label>
-                        <input type="file" name="image"/> <br/>
+                        <input type="file" name="image" multiple/> <br/>
                         @if($errors -> has('image'))
                             <span class="help-block">
                                         <strong>{{ $errors->first('image') }}</strong>

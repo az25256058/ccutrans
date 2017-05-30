@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UploadRequest;
 use App\Product;
@@ -13,7 +14,8 @@ class SellController extends Controller
 {
     public function index()
     {
-        return view('sell');
+        $products = Product::where('user_id', Auth::id())->get();
+        return view('sell', compact('products'));
     }
 
     public function store(Request $request)
@@ -57,6 +59,10 @@ class SellController extends Controller
             ]);
         }
         return redirect('/seller');
+    }
+
+    public function showDetails($product_id){
+        return response()->json(['response' => 'Test Success']);
     }
 
 }

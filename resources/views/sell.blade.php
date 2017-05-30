@@ -26,15 +26,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <a id="" href="https://www.facebook.com/profile.php?id=100000335517561">張志源</a>
-                            &nbsp;包包
-                        </td>
-                        <td>5</td>
-                        <th>30</th>
-                        <th><a href="#">取消</a></th>
-                    </tr>
+                    @foreach($products as $product)
+                        <tr onclick="showDetails({{ $product->id }})">
+                            <td>{{ $product->name  }}</td>
+                            <td>{{ $product->amount }}</td>
+                            <td>{{ $product->price }}</td>
+                            <td><a href="#">取消</a>
+                                <a href="#">編輯</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><div class="collapse{{ $product->id  }}"></div></td>
+                        </tr>
+
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -90,7 +94,8 @@
                                 </select>
                                 <br/>
                                 @if($errors -> has('category'))
-                                    <div class="alert alert-warning" role="alert">{{  $errors->first('category') }}</div>
+                                    <div class="alert alert-warning"
+                                         role="alert">{{  $errors->first('category') }}</div>
                                 @endif
                             </div>
                         </div>
@@ -124,5 +129,11 @@
 @endsection
 
 @section('scripts')
-
+<script>
+    function showDetails(product_id) {
+        $.get('showDetails/'+product_id ,function (response) {
+            console.log(response)
+        })
+    }
+</script>
 @endsection

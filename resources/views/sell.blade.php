@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-lg-10 col-md-offset-1">
+    <div class="col-md-8 col-md-offset-2">
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
@@ -42,44 +42,79 @@
             <div role="tabpanel" class="tab-pane fade" id="profile">
 
                 <div class="jumbotron" style="padding: 50px;">
-                    <h2 class="display-3">Share your lives</h2>
-                    <p class="lead">Attention : The size of photo must be less than 85KB.</p>
                     <form class="form-horizontal" method="post" action="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
-
-                        <input type="text" name="name"/>
+                        <div class="form-group">
+                            <label for="name">商品名稱</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="商品名稱" required/>
+                            <br/>
+                            @if($errors -> has('name'))
+                                <div class="alert alert-warning" role="alert">{{  $errors->first('name') }}</div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4" style="padding-left: 0px;">
+                                <label for="price">單價</label>
+                                <input type="number" class="form-control" id="price" name="price" min="0"
+                                       placeholder="元" required/>
+                                <br/>
+                                @if($errors -> has('price'))
+                                    <div class="alert alert-warning" role="alert">{{  $errors->first('price') }}</div>
+                                @endif
+                            </div>
+                            <div class="col-md-4" style="padding-left: 7px; padding-right: 7px;">
+                                <label for="amount">數量</label>
+                                <input type="number" class="form-control" id="amount" name="amount" min="1"
+                                       placeholder="數量" required/>
+                                <br/>
+                                @if($errors -> has('amount'))
+                                    <div class="alert alert-warning" role="alert">{{  $errors->first('amount') }}</div>
+                                @endif
+                            </div>
+                            <div class="col-md-4" style="padding-right: 0px;">
+                                <label for="inlineFormCustomSelect">商品種類</label>
+                                <select class="custom-select mb-2 mr-sm-2 mb-sm-0 form-control"
+                                        id="inlineFormCustomSelect"
+                                        name="category" required>
+                                    <option selected>選擇分類...</option>
+                                    <option value="1">食物</option>
+                                    <option value="2">男裝</option>
+                                    <option value="3">女裝</option>
+                                    <option value="4">日用品</option>
+                                    <option value="5">美妝</option>
+                                    <option value="6">書籍</option>
+                                    <option value="7">數位家電</option>
+                                    <option value="8">傢俱</option>
+                                    <option value="9">其他</option>
+                                </select>
+                                <br/>
+                                @if($errors -> has('category'))
+                                    <div class="alert alert-warning" role="alert">{{  $errors->first('category') }}</div>
+                                @endif
+                            </div>
+                        </div>
                         <br/>
-                        <input type="number" name="price" min="0"/>
-                        <input type="number" name="amount" min="1"/>
-                        <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" name="category">
-                            <option selected>Choose...</option>
-                            <option value="1">食物</option>
-                            <option value="2">男裝</option>
-                            <option value="3">女裝</option>
-                            <option value="4">日用品</option>
-                            <option value="5">美妝</option>
-                            <option value="6">書籍</option>
-                            <option value="7">數位家電</option>
-                            <option value="8">傢俱</option>
-                            <option value="9">其他</option>
-                        </select>
-                    <br/>
-                        <label for="name">
-                            上傳照片</label>
-                        <input type="file" name="images[]" multiple/> <br/>
-                        @if($errors -> has('images[]'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('image') }}</strong>
-                                </span>
-                        @endif
-
-                            <label for="name">
+                        <div class="form-group">
+                            <label for="images[]">上傳照片</label>
+                            <small>(Ctrl+左鍵可以一次上傳多張相片)</small>
+                            <br/>
+                            <input type="file" id="images[]" name="images[]" multiple/> <br/>
+                            @if($errors -> has('images.*'))
+                                <div class="alert alert-warning" role="alert">{{  $errors->first('images.*') }}</div>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="text">
                                 商品描述</label>
-                            <textarea name="description" id="text" class="form-control" rows="5" cols="15" required="required" placeholder="對商品的描述..."></textarea>
-
-                        <br/>
-                        <button class="btn btn-lg btn-success" type="submit">確定</button>
+                            <textarea name="description" id="text" class="form-control" rows="5" cols="15"
+                                      required="required" placeholder="對商品的描述..."></textarea>
+                            @if($errors -> has('description'))
+                                <div class="alert alert-warning" role="alert">{{  $errors->first('description') }}</div>
+                            @endif
+                            <br/>
+                            <button class="btn btn-lg btn-primary" type="submit">確定</button>
+                        </div>
                     </form>
                 </div>
             </div>

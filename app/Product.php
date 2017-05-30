@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $table='products';
+    protected $fillable = ['name', 'price', 'category', 'amount', 'description', 'user_id'];
 
     public function user(){
 
-        return $this->belongsTo('App\User','id','id');
+        return $this->belongsTo('App\User');
     }
 }

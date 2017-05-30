@@ -18,15 +18,22 @@ class SellController extends Controller
 
     public function store(Request $request)
     {
-        /*$this->validate($request,[
-            'name' => 'required',
-            'price' => ''
-        ]);*/
+        $this->validate($request,[
+            'name' => 'required|string|max:255',
+            'price' => 'required|integer|min:0',
+            'category' => 'required|integer|min:1|max:9',
+            'amount' => 'required|integer|min:0',
+            'images.*' => 'required|image',
+        ]);
 
         $files = $request->file('images');
 
+        /*foreach ($files as $image){
+            $this->validate($image,['image' => 'required']);
+        }*/
 
-        $product = Product::insertGetId([
+
+        $product = Product::create([
             'name' => $request->name,
             'price' => $request->price,
             'category' => $request->category,
@@ -43,8 +50,8 @@ class SellController extends Controller
 
             $file->storeAs('public', $photo_name.'.'.$photo_type);
 
-            Photo::insert([
-                'product_id' => $product,
+            Photo::create([
+                'product_id' => $product->id,
                 'photo_name' => $photo_name,
                 'photo_type' => $photo_type,
             ]);

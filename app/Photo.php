@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
-    protected $fillable = ['product_id','photo_name'];
+    protected $table='phptos';
 
     public function product(){
 

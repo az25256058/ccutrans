@@ -51,6 +51,7 @@
                         <input type="text" name="name"/>
                         <br/>
                         <input type="number" name="price" min="0">
+                        <input type="number" name="amount" min="1">
                         <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" name="category">
                             <option selected>Choose...</option>
                             <option value="1">食物</option>
@@ -75,7 +76,7 @@
 
                             <label for="name">
                                 商品描述</label>
-                            <textarea name="text" id="text" class="form-control" rows="5" cols="15" required="required" placeholder="對商品的描述..."></textarea>
+                            <textarea name="description" id="text" class="form-control" rows="5" cols="15" required="required" placeholder="對商品的描述..."></textarea>
 
                         <br/>
                         <button class="btn btn-lg btn-success" type="submit">確定</button>

@@ -27,6 +27,7 @@ class UploadRequest extends FormRequest
             'name' =>'required',
             'category'=>'required',
             'price'=>'required',
+            'amount'=>'required'
 
         ];
         $photos = count($this->input('image'));

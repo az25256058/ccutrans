@@ -33,12 +33,13 @@
                             <div class="panel-heading" role="tab" id="heading{{$product->id}}" data-toggle="collapse"
                                  data-parent="#accordion" href="#collapse{{$product->id}}" aria-expanded="true"
                                  aria-controls="collapse{{$product->id}}">
-                                <h4 class="panel-title">
+                                <h3 class="panel-title">
                                     {{$product->name}}
-                                </h4>
+                                </h3>
                                 <h5 align="right">
-                                    <a>問與答(25)</a>&nbsp;
-                                      單價:{{$product->price}} 數量:{{$product->amount}}
+                                    <a>有意願購買者( <b>110</b> )</a>&nbsp;
+                                    <a>問與答( <b>25</b> )</a>&nbsp;
+                                    單價: <b>{{$product->price}}</b> &nbsp; 數量: <b>{{$product->amount}}</b>
                                 </h5>
                             </div>
                             <div id="collapse{{$product->id}}" class="panel-collapse collapse" role="tabpanel"
@@ -58,10 +59,17 @@
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <form>
-                                        <label for="amount">數量:</label>
-                                        <input type="number" name="amount" id="amount">
-                                        <input type="submit" role="button">
+                                    <form class="form-inline" method="post" action="purchase/{{$product->id}}">
+                                        {{csrf_field()}}
+                                        <div class="form-group">
+                                            <label for="amount">數量:</label>
+                                            <input type="number" name="amount" id="amount" class="form-control" min="1"
+                                                   required oninput="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>總價:</label>
+                                        </div>
+                                        <input type="submit" role="button" class="btn btn-default">
                                     </form>
                                 </div>
                             </div>
@@ -112,6 +120,8 @@
                     @endforeach
 
                 </div>
+                <div>{{ $products->render() }}</div>
+
             </div>
 
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">

@@ -20,4 +20,8 @@ class Product extends Model
     public function purchases(){
         return $this->hasMany('App\Purchase');
     }
+
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }
 }

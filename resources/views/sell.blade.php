@@ -95,7 +95,6 @@
                                                 <div class="item {{$loop->first ? 'active':'' }}">
                                                     <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}" alt="...">
                                                     <div class="carousel-caption">
-                                                        123456
                                                     </div>
                                                 </div>
                                             @endforeach

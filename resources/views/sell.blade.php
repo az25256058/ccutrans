@@ -207,11 +207,4 @@
 @endsection
 
 @section('scripts')
-    <script>
-        function showDetails(product_id) {
-            $.get('showDetails/' + product_id, function (result) {
-                console.log(result)
-            })
-        }
-    </script>
 @endsection

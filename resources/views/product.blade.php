@@ -13,7 +13,7 @@
             <div class="col-sm-8 blog main">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne" onclick="$('#collapseOne').collapse.in();">
+                        <div class="panel-heading" role="tab" id="headingOne" onclick="$('#collapseOne').collapse();">
                             <h4 class="panel-title">
                                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     滑板車
@@ -26,7 +26,7 @@
                         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body">
                                 <div class="col-md-3">
-                                    <img src="1.jpg" width="100%" />
+                                    <img src="storage/ab6a15bf7f7d25194ab3a00682d90c4b-KZAmEjyh.jpeg" width="100%" />
                                 </div>
                                 <div class="col-md-9">
                                     賣家 : <a href="https://www.facebook.com/profile.php?id=100000335517561">張志源</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Http\Requests\UploadRequest;
 use App\Product;
@@ -62,7 +63,17 @@ class SellController extends Controller
     }
 
     public function showDetails($product_id){
-        return response()->json(['response' => 'Test Success']);
+        $product = Product::findOrFail($product_id);
+
+        $result = [];
+
+        foreach ($product->photos as $photo)
+        {
+            $result[] = [
+            ];
+        }
+
+        return response()->json(['response'=> Storage::get('public/ab6a15bf7f7d25194ab3a00682d90c4b-KZAmEjyh.jpeg')]);
     }
 
 }

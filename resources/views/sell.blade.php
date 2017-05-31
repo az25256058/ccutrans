@@ -25,19 +25,97 @@
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                     @foreach($products as $product)
-                        <tr onclick="showDetails({{ $product->id }})">
+                        <tr class="panel-heading" role="tab" id="heading{{$product->id}}">
                             <td>{{ $product->name  }}</td>
                             <td>{{ $product->amount }}</td>
                             <td>{{ $product->price }}</td>
-                            <td><a href="#">取消</a>
-                                <a href="#">編輯</a></td>
+                            <td><a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
+                                   aria-controls="detail{{$product->id}}" href="#detail{{$product->id}}">詳細資料</a><br/>
+                                <a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
+                                   aria-controls="edit{{$product->id}}" href="#edit{{$product->id}}">編輯</a><br/>
+                                <a data-toggle="modal" href="#cancel{{$product->id}}"
+                                   data-target=".bs-example-modal-lg">取消</a>
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="4"><div class="collapse{{ $product->id  }}"></div></td>
+                            <td colspan="4" style="padding-bottom: 0px; padding-top: 0px;">
+                                <div id="detail{{$product->id}}" class="collapse" role="tabpanel"
+                                     aria-labelledby="heading{{$product->id}}">
+                                    <div class="col-md-3" style="padding-top: 15px; padding-bottom: 15px;">
+                                        @php($photo = $product->photos()->get()->first())
+                                        <a data-toggle="modal" data-target="#img{{$product->id}}"
+                                           href="#img{{$product->id}}"><img
+                                                    src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}"
+                                                    width="100%"/></a>
+                                    </div>
+                                    <div class="col-md-9" style="padding-top: 15px; padding-bottom: 15px;">
+                                        <p>詳細資料:</p>
+                                        <p>一個滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車阿</p>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="padding-bottom: 0px; padding-top: 0px;">
+                                <div id="edit{{$product->id}}" class="collapse" role="tabpanel"
+                                     aria-labelledby="heading{{$product->id}}">
+                                    <div class="panel-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                                        richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
+                                        brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                                        sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                                        shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                                        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+                                        Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
+                                        you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
 
+                        <div class="modal fade" id="img{{$product->id}}" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                        <!-- Indicators -->
+                                        <ol class="carousel-indicators">
+                                            @foreach( $product->photos as $photo )
+                                                <li data-target="#carousel-example-generic"
+                                                    data-slide-to="{{ $loop->index }}"
+                                                    class="{{ $loop->first ? 'active' : '' }}"></li>
+                                            @endforeach
+                                        </ol>
+
+                                        <!-- Wrapper for slides -->
+                                        <div class="carousel-inner" role="listbox">
+                                            @foreach( $product->photos as $photo )
+                                                <div class="item {{$loop->first ? 'active':'' }}">
+                                                    <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}" alt="...">
+                                                    <div class="carousel-caption">
+                                                        123456
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Controls -->
+                                        <a class="left carousel-control" href="#carousel-example-generic" role="button"
+                                           data-slide="prev" onclick="$('.carousel').carousel('prev');">
+                                            <span class="icon-prev" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" href="#carousel-example-generic" role="button"
+                                           data-slide="next" onclick="$('.carousel').carousel('next');">
+                                            <span class="icon-next" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                     </tbody>
                 </table>
@@ -129,11 +207,11 @@
 @endsection
 
 @section('scripts')
-<script>
-    function showDetails(product_id) {
-        $.get('showDetails/'+product_id ,function (response) {
-            console.log(response)
-        })
-    }
-</script>
+    <script>
+        function showDetails(product_id) {
+            $.get('showDetails/' + product_id, function (result) {
+                console.log(result)
+            })
+        }
+    </script>
 @endsection

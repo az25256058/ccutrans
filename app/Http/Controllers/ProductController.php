@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Product;
 use App\Purchase;
 use Illuminate\Http\Request;
@@ -39,6 +40,21 @@ class ProductController extends Controller
                 ->where('product_id', $pid)
                 ->increment('amount', $request->amount);
         }
+
+        return redirect()->back();
+    }
+
+    public function comment($pid, Request $request)
+    {
+        $this->validate($request,[
+            'comment' => 'required|string|max:200',
+        ]);
+
+        Comment::create([
+            'user_id' => Auth::id(),
+            'product_id' => $pid,
+            'comment' => $request->comment,
+        ]);
 
         return redirect()->back();
     }

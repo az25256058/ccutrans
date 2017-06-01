@@ -167,7 +167,7 @@
                                         <h4 class="modal-title" id="myModalLabel">問與答</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <ul>
+                                        <ul class="list-unstyled">
 
                                             @php($comments = $product->comments()->latest()->get())
                                             @foreach($comments as $comment)
@@ -181,12 +181,11 @@
                                         </ul>
                                     </div>
                                     <div class="modal-footer">
-                                        <form class="row" enctype="application/x-www-form-urlencoded" action="{{$product->id}}"
-                                              onsubmit="return false;">
+                                        <form class="row" method="post" enctype="application/x-www-form-urlencoded" action="comment/{{$product->id}}">
                                             {{csrf_field()}}
                                             <div class="col-md-10">
                                                 <input type="text" class="form-control" id="comment" name="comment"
-                                                       placeholder="想問什麼?"/>
+                                                       placeholder="想問什麼?" required/>
                                             </div>
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn btn-primary">送出</button>

@@ -32,7 +32,7 @@
                                 <tr>
                                     <td>
                                         <img src="//graph.facebook.com/{{$purchase->facebook_id}}/picture?width=30&height=30">
-                                        <a href="https://www.facebook.com/profile.php?id={{$purchase->facebook_id}}">{{$purchase->sellerName}}</a>
+                                        <a href="https://facebook.com/{{$purchase->facebook_id}}">{{$purchase->sellerName}}</a>
                                         {{$purchase->name}}
                                     </td>
                                     <td>
@@ -47,15 +47,6 @@
                                 </tr>
                             @endforeach
 
-                        <tr>
-                            <td>
-                                <a id="" href="https://www.facebook.com/profile.php?id=100000335517561">張志源</a>
-                                &nbsp;包包
-                            </td>
-                            <td>5</td>
-                            <th>30</th>
-                            <th><a href="#">取消</a></th>
-                        </tr>
 
 
                     </tbody>

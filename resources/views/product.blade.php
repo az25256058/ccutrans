@@ -37,9 +37,11 @@
                                     {{$product->name}}
                                 </h3>
                                 <h5 align="right">
-                                    <a data-toggle="modal" href="#purchasers{{$product->id}}">有意願購買者( <b>{{count($product->purchases)}}</b>
+                                    <a data-toggle="modal" href="#purchasers{{$product->id}}">有意願購買者(
+                                        <b>{{count($product->purchases)}}</b>
                                         )</a>&nbsp;
-                                    <a data-toggle="modal" href="#comments{{$product->id}}">問與答( <b>{{count($product->comments)}}</b> )</a>&nbsp;
+                                    <a data-toggle="modal" href="#comments{{$product->id}}">問與答(
+                                        <b>{{count($product->comments)}}</b> )</a>&nbsp;
                                     單價: <b>{{$product->price}}</b> &nbsp; 數量: <b>{{$product->amount}}</b>
                                 </h5>
                             </div>
@@ -126,7 +128,8 @@
 
 
                         <!-- Purchasers modal -->
-                        <div class="modal fade" id="purchasers{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal fade" id="purchasers{{$product->id}}" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -138,9 +141,10 @@
                                         <ol>
                                             @php($purchases = $product->purchases()->latest()->get())
                                             @foreach($purchases as $purchase)
-                                            <li><a>{{$purchase->user->name}}</a>
-                                                購買數量: {{$purchase->amount}}
-                                                <span class="pull-right">{{$purchase->updated_at->diffForHumans()}}</span></li>
+                                                <li><a>{{$purchase->user->name}}</a>
+                                                    購買數量: {{$purchase->amount}}
+                                                    <span class="pull-right">{{$purchase->updated_at->diffForHumans()}}</span>
+                                                </li>
                                             @endforeach
                                         </ol>
                                     </div>
@@ -153,21 +157,41 @@
                         </div>
 
                         <!-- Comments modal -->
-                        <div class="modal fade" id="comments{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal fade" id="comments{{$product->id}}" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                        <h4 class="modal-title" id="myModalLabel">問與答</h4>
                                     </div>
                                     <div class="modal-body">
-                                        ...
+                                        <ul>
+
+                                            @php($comments = $product->comments()->latest()->get())
+                                            @foreach($comments as $comment)
+                                                <li>
+                                                    <a>{{$comment->user->name}}</a>
+                                                    {{$comment->comment}}
+                                                    <span class="pull-right">{{$comment->updated_at->diffForHumans()}}</span>
+                                                </li>
+                                            @endforeach
+
+                                        </ul>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                        </button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                        <form class="row" enctype="application/x-www-form-urlencoded" action="{{$product->id}}"
+                                              onsubmit="return false;">
+                                            {{csrf_field()}}
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" id="comment" name="comment"
+                                                       placeholder="想問什麼?"/>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-primary">送出</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

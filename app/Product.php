@@ -16,4 +16,12 @@ class Product extends Model
     public function photos(){
         return $this->hasMany('App\Photo');
     }
+
+    public function purchases(){
+        return $this->hasMany('App\Purchase');
+    }
+
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }
 }

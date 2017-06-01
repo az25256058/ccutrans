@@ -95,7 +95,6 @@
                                                 <div class="item {{$loop->first ? 'active':'' }}">
                                                     <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}" alt="...">
                                                     <div class="carousel-caption">
-                                                        123456
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -207,11 +206,4 @@
 @endsection
 
 @section('scripts')
-    <script>
-        function showDetails(product_id) {
-            $.get('showDetails/' + product_id, function (result) {
-                console.log(result)
-            })
-        }
-    </script>
 @endsection

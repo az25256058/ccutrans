@@ -1,5 +1,20 @@
 @extends('layouts.app')
 
+@section('css')
+    <style>
+        div.product :hover {
+            transition-duration: 1s;
+            box-shadow: 4px 4px 3px #878787;
+            background: #F5F5F5;
+        }
+
+        div.product * :hover {
+            box-shadow: initial;
+            background: initial;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container">
 
@@ -12,82 +27,107 @@
 
             <div class="col-sm-8 blog main">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne" onclick="$('#collapseOne').collapse();">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    滑板車
-                                </a>
-                            </h4>
-                            <h5 align="right">
-                                單價:100   數量:100
-                            </h5>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                <div class="col-md-3">
-                                    <img src="storage/ab6a15bf7f7d25194ab3a00682d90c4b-KZAmEjyh.jpeg" width="100%" />
+
+                    @foreach($products as $product)
+                        <div class="panel panel-default product">
+                            <div class="panel-heading" role="tab" id="heading{{$product->id}}" data-toggle="collapse"
+                                 data-parent="#accordion" href="#collapse{{$product->id}}" aria-expanded="true"
+                                 aria-controls="collapse{{$product->id}}">
+                                <h3 class="panel-title">
+                                    {{$product->name}}
+                                </h3>
+                                <h5 align="right">
+                                    <a>有意願購買者( <b>110</b> )</a>&nbsp;
+                                    <a>問與答( <b>25</b> )</a>&nbsp;
+                                    單價: <b>{{$product->price}}</b> &nbsp; 數量: <b>{{$product->amount}}</b>
+                                </h5>
+                            </div>
+                            <div id="collapse{{$product->id}}" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="heading{{$product->id}}">
+                                <div class="panel-body">
+                                    <div class="col-md-3">
+                                        @php($photo = $product->photos()->get()->first())
+                                        <a data-toggle="modal" data-target="#img{{$product->id}}"
+                                           href="#img{{$product->id}}"><img
+                                                    src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}"
+                                                    width="100%"/></a>
+                                    </div>
+                                    <div class="col-md-9">
+                                        賣家 :
+                                        <a href="https://www.facebook.com/profile.php?id=100000335517561">{{$product->user->name}}</a>
+                                        <p>{{$product->description}}</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-9">
-                                    賣家 : <a href="https://www.facebook.com/profile.php?id=100000335517561">張志源</a>
-                                    <p>一個滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車阿</p>
+                                <div class="panel-body">
+                                    <form class="form-inline" method="post" action="purchase/{{$product->id}}">
+                                        {{csrf_field()}}
+                                        <div class="form-group">
+                                            <label for="amount">數量:</label>
+                                            <input type="number" name="amount" id="amount" class="form-control" min="1"
+                                                   required oninput="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>總價:</label>
+                                        </div>
+                                        <input type="submit" role="button" class="btn btn-default">
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    牛奶
-                                </a>
-                            </h4>
-                            <h5 align="right">
-                                單價:100   數量:100
-                            </h5>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                            <div class="panel-body">
-                                <div class="col-md-3">
-                                    <img src="1.jpg" width="100%" />
-                                </div>
-                                <div class="col-md-9">
-                                    賣家 : <a href="https://www.facebook.com/profile.php?id=100000335517561">張志源</a>
-                                    <p>一個滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車阿</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h4 class="panel-title">
-                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    狗鍊
-                                </a>
-                            </h4>
-                            <h5 align="right">
-                                單價:100   數量:100
-                            </h5>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                            <div class="panel-body">
-                                <div class="col-md-3">
-                                    <img src="1.jpg" width="100%" />
-                                </div>
-                                <div class="col-md-9">
-                                    賣家 : <a href="https://www.facebook.com/profile.php?id=100000335517561">張志源</a>
-                                    <p>一個滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車阿</p>
+
+                        <div class="modal fade" id="img{{$product->id}}" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                        <!-- Indicators -->
+                                        <ol class="carousel-indicators">
+                                            @foreach( $product->photos as $photo )
+                                                <li data-target="#carousel-example-generic"
+                                                    data-slide-to="{{ $loop->index }}"
+                                                    class="{{ $loop->first ? 'active' : '' }}"></li>
+                                            @endforeach
+                                        </ol>
+
+                                        <!-- Wrapper for slides -->
+                                        <div class="carousel-inner" role="listbox">
+                                            @foreach( $product->photos as $photo )
+                                                <div class="item {{$loop->first ? 'active':'' }}">
+                                                    <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}"
+                                                         alt="...">
+                                                    <div class="carousel-caption">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Controls -->
+                                        <a class="left carousel-control" href="#carousel-example-generic" role="button"
+                                           data-slide="prev" onclick="$('.carousel').carousel('prev');">
+                                            <span class="icon-prev" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" href="#carousel-example-generic" role="button"
+                                           data-slide="next" onclick="$('.carousel').carousel('next');">
+                                            <span class="icon-next" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
+
                 </div>
+                <div>{{ $products->render() }}</div>
+
             </div>
 
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
                     <h4>About</h4>
-                    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+                    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
+                        fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
                 </div>
                 <div class="sidebar-module">
                     <h4>Archives</h4>

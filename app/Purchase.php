@@ -10,5 +10,9 @@ class Purchase extends Model
 
     protected $primaryKey = ['user_id', 'product_id'];
 
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
     public $incrementing = false;
 }

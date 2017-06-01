@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,7 @@ class CheckFacebookLogin
      */
     public function handle($request, Closure $next)
     {
+        Carbon::setLocale('zh');
         if(Auth::check())
             return $next($request);
         else

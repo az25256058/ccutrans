@@ -75,6 +75,7 @@ class LoginController extends Controller
                 'facebook_id' => $user->getID(),
                 'name' => $user->getName(),
                 'email' => $user->getEmail(),
+
             ]);
         }
 

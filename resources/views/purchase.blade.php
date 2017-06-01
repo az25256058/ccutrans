@@ -31,7 +31,8 @@
                             @foreach($purchases as $purchase)
                                 <tr>
                                     <td>
-                                        <a href="#">{{$purchase->facebook_id}}</a>
+                                        <img src="//graph.facebook.com/{{$purchase->facebook_id}}/picture?width=30&height=30">
+                                        <a href="https://www.facebook.com/profile.php?id={{$purchase->facebook_id}}">{{$purchase->sellerName}}</a>
                                         {{$purchase->name}}
                                     </td>
                                     <td>

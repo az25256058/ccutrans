@@ -10,9 +10,14 @@
             </li>
         </ul>
 
+
         <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade in active" id="home">
+                @if($purchases->isEmpty())
+                    <div class="alert alert-info text-center" role="alert">尚無購買</div>
+                @endif
+
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -23,6 +28,24 @@
                         </tr>
                     </thead>
                     <tbody>
+                            @foreach($purchases as $purchase)
+                                <tr>
+                                    <td>
+                                        <a href="#">{{$purchase->facebook_id}}</a>
+                                        {{$purchase->name}}
+                                    </td>
+                                    <td>
+                                        {{$purchase->amount}}
+                                    </td>
+                                    <td>
+                                        {{$purchase->price * $purchase->amount}}
+                                    </td>
+                                    <td>
+                                        <a href="#">取消</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+
                         <tr>
                             <td>
                                 <a id="" href="https://www.facebook.com/profile.php?id=100000335517561">張志源</a>
@@ -32,6 +55,8 @@
                             <th>30</th>
                             <th><a href="#">取消</a></th>
                         </tr>
+
+
                     </tbody>
                 </table>
             </div>

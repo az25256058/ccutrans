@@ -17,9 +17,24 @@ class PurchaseController extends Controller
                 ->join('products','purchases.product_id','=','products.id')
                 ->join('users','users.id','=','products.user_id')
                 ->where('purchases.user_id',Auth::id())
-                ->select('products.price','products.name','purchases.amount','users.facebook_id')
+                ->select('products.price','products.name','purchases.amount','purchases.*','users.facebook_id')
                 ->get();
         return view('purchase',compact('purchases'));
+    }
+
+    public function destory($pid){
+
+        DB::table('purchases')
+            ->where([
+
+                ['user_id',Auth::id()],
+                ['product_id',$pid],
+
+            ])->delete();
+
+
+        return redirect('purchaser');
+
     }
 
 

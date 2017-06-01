@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-lg-10 col-md-offset-1">
+    <div class="col-lg-8 col-md-offset-2">
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">

@@ -64,7 +64,7 @@
                                         <div class="form-group col-md-5">
                                             <label for="amount{{$product->id}}">數量:</label>
                                             <input type="number" name="amount" id="amount{{$product->id}}"
-                                                   class="form-control" min="1"
+                                                   class="form-control" min="1" max="{{$product->amount}}"
                                                    required oninput="input({{$product->id}},{{$product->price}});">
                                         </div>
                                         <div class="col-md-2">

@@ -31,7 +31,7 @@
                             @foreach($purchases as $purchase)
                                 <tr>
                                     <td>
-                                        <a href="#">{{$purchase->facebook_id}}</a>
+                                        <a href="https://www.facebook.com/profile.php?id={{$purchase->facebook_id}}">{{$purchase->sellerName}}</a>
                                         {{$purchase->name}}
                                     </td>
                                     <td>

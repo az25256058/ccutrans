@@ -41,7 +41,7 @@
                                         {{$purchase->price * $purchase->amount}}
                                     </td>
                                     <td>
-                                        <a href="#">取消</a>
+                                        <a href="/cancel/{{$purchase->product_id}}">取消</a>
                                     </td>
                                 </tr>
                             @endforeach

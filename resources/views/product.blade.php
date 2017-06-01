@@ -54,6 +54,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         賣家 :
+                                        <img src="//graph.facebook.com/{{$product->user->facebook_id}}/picture?width=30&height=30">
                                         <a href="https://www.facebook.com/profile.php?id=100000335517561">{{$product->user->name}}</a>
                                         <p>{{$product->description}}</p>
                                     </div>

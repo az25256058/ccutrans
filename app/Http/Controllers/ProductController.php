@@ -9,10 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index($category)
     {
-        $products = Product::paginate(10);
-        return view('product', ['products' => $products]);
+        if ($category==0) {
+            $products = Product::paginate(10);
+            return view('product', ['products' => $products]);
+        } else {
+            $products = Product::where('category', (int)$category)->paginate(10);
+            return view('product', ['products' => $products]);
+        }
     }
 
     public function purchase($pid, Request $request)

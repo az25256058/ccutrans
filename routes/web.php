@@ -25,13 +25,15 @@ Route::get('/login/facebook/callback', 'Auth\LoginController@handleProviderCallb
 Route::group(['middleware' => ['facebookLogin']], function (){
     Route::get('/home', 'HomeController@index')->name('home');
 
-    Route::get('/product','ProductController@index');
+    Route::get('/product-{category}', 'ProductController@index');
     Route::get('/seller', 'SellController@index');
     Route::get('/purchaser', 'PurchaseController@index');
 
     Route::post('/post','SellController@store');
 
     Route::post('/purchase/{pid}', 'ProductController@purchase');
+
+
 });
 
 

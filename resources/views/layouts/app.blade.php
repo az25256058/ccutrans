@@ -52,7 +52,7 @@
 
                         <li>
 
-                            <a href="{{ url('product') }}">瀏覽商品</a>
+                            <a href="{{ url('product-0') }}">瀏覽商品</a>
 
                         </li>
                         <li>

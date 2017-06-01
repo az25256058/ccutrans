@@ -37,8 +37,8 @@
                                     {{$product->name}}
                                 </h3>
                                 <h5 align="right">
-                                    <a>有意願購買者( <b>110</b> )</a>&nbsp;
-                                    <a>問與答( <b>25</b> )</a>&nbsp;
+                                    <a>有意願購買者( <b>{{count($product->purchases)}}</b> )</a>&nbsp;
+                                    <a>問與答( <b>{{count($product->comments)}}</b> )</a>&nbsp;
                                     單價: <b>{{$product->price}}</b> &nbsp; 數量: <b>{{$product->amount}}</b>
                                 </h5>
                             </div>
@@ -61,15 +61,19 @@
                                 <div class="panel-body">
                                     <form class="form-inline" method="post" action="purchase/{{$product->id}}">
                                         {{csrf_field()}}
-                                        <div class="form-group">
-                                            <label for="amount">數量:</label>
-                                            <input type="number" name="amount" id="amount" class="form-control" min="1"
-                                                   required oninput="">
+                                        <div class="form-group col-md-5">
+                                            <label for="amount{{$product->id}}">數量:</label>
+                                            <input type="number" name="amount" id="amount{{$product->id}}"
+                                                   class="form-control" min="1"
+                                                   required oninput="input({{$product->id}},{{$product->price}});">
                                         </div>
-                                        <div class="form-group">
-                                            <label>總價:</label>
+                                        <div class="col-md-2">
+                                            <input type="submit" role="button" class="btn btn-default">
                                         </div>
-                                        <input type="submit" role="button" class="btn btn-default">
+                                        <div class="form-group col-md-5">
+                                            <label for="output{{$product->id}}">總價:</label>
+                                            <input id="output{{$product->id}}" class="form-control" disabled>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -125,29 +129,26 @@
 
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
-                    <h4>About</h4>
-                    <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet
-                        fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+                    <h4>關於</h4>
+                    <p>買賣交流網站</p>
                 </div>
                 <div class="sidebar-module">
-                    <h4>Archives</h4>
+                    <h4>分類</h4>
                     <ol class="list-unstyled">
-                        <li><a href="#">March 2014</a></li>
-                        <li><a href="#">February 2014</a></li>
-                        <li><a href="#">January 2014</a></li>
-                        <li><a href="#">December 2013</a></li>
-                        <li><a href="#">November 2013</a></li>
-                        <li><a href="#">October 2013</a></li>
-                        <li><a href="#">September 2013</a></li>
-                        <li><a href="#">August 2013</a></li>
-                        <li><a href="#">July 2013</a></li>
-                        <li><a href="#">June 2013</a></li>
-                        <li><a href="#">May 2013</a></li>
-                        <li><a href="#">April 2013</a></li>
+                        <li><a href="{{url('product-0')}}">查看全部</a></li>
+                        <li><a href="{{url('product-1')}}">食物、食材類</a></li>
+                        <li><a href="{{url('product-2')}}">男裝</a></li>
+                        <li><a href="{{url('product-3')}}">女裝</a></li>
+                        <li><a href="{{url('product-4')}}">日用品</a></li>
+                        <li><a href="{{url('product-5')}}">美妝產品</a></li>
+                        <li><a href="{{url('product-6')}}">書籍類</a></li>
+                        <li><a href="{{url('product-7')}}">數位家電</a></li>
+                        <li><a href="{{url('product-8')}}">傢俱類</a></li>
+                        <li><a href="{{url('product-9')}}">其他</a></li>
                     </ol>
                 </div>
                 <div class="sidebar-module">
-                    <h4>Elsewhere</h4>
+                    <h4>Link</h4>
                     <ol class="list-unstyled">
                         <li><a href="#">GitHub</a></li>
                         <li><a href="#">Twitter</a></li>
@@ -163,5 +164,11 @@
 @endsection
 
 @section('scripts')
+    <script>
+        function input(pid, price) {
+            var x = document.getElementById('amount' + pid).value;
+            document.getElementById('output' + pid).value = price * x;
+        }
+    </script>
 
 @endsection

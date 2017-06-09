@@ -23,8 +23,8 @@
     <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
     <!-- Bootstrap Material Design -->
-    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
-    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap-material-design/dist/css/ripples.min.css">
+    <link rel="stylesheet" type="text/css" href="{{  asset('css/bootstrap-material-design.min.css')  }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/ripples.min.css') }}">
 
 
 </head>
@@ -101,8 +101,12 @@
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 
-<script src="../node_modules/bootstrap-material-design/dist/css/ripples.min.js"></script>
-<script src="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.js"></script>
+<script src="{{ asset('js/ripples.min.js') }}"></script>
+<script src="{{ asset('js/material.min.js') }}"></script>
+<script>
+    $.material.init()
+</script>
+
 
     @yield('scripts')
 </body>

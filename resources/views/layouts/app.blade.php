@@ -26,12 +26,15 @@
     <link rel="stylesheet" type="text/css" href="{{  asset('css/bootstrap-material-design.min.css')  }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/ripples.min.css') }}">
 
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.24/css/uikit.min.css" />
+
 
 </head>
 <body>
 <div id="app">
 
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top" >
         <div class="container">
             <div class="navbar-header">
 
@@ -48,11 +51,12 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                <p class="navbar-text"><img src="https://graph.facebook.com/{{Auth::user()->facebook_id}}/picture?width=20&height=20"> {{Auth::user()->name}}</p>
+
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                <p class="navbar-text"><img src="https://graph.facebook.com/{{Auth::user()->facebook_id}}/picture?width=20&height=20"> {{Auth::user()->name}}</p>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">

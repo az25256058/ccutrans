@@ -3,7 +3,7 @@
 @section('css')
     <style>
         div.product :hover {
-            transition-duration: 1s;
+            transition-duration: 0.3s;
             box-shadow: 4px 4px 3px #878787;
             background: #F5F5F5;
         }
@@ -12,211 +12,95 @@
             box-shadow: initial;
             background: initial;
         }
+        div.product :hover img.product_pic{
+            box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+        }
+
     </style>
 @endsection
 
 @section('content')
     <div class="container">
 
-        <div class="blog-header">
 
-        </div>
+        <ul class="nav nav-tabs" style="margin-bottom: 15px;">
+            <li class=""><a href="{{url('product-0')}}">全部分類
+                </a></li>
+            <li class=""><a href="{{url('product-1')}}">食物食材
+                </a></li>
+            <li class=""><a href="{{url('product-2')}}">男裝
+                </a></li>
+            <li class=""><a href="{{url('product-3')}}">女裝
+                </a></li>
+            <li class=""><a href="{{url('product-4')}}">日用品
+                </a></li>
+            <li class=""><a href="{{url('product-5')}}">美妝產品
+                </a></li>
+            <li class=""><a href="{{url('product-6')}}">書籍類
+                </a></li>
+            <li class=""><a href="{{url('product-7')}}">數位家電
+                </a></li>
+            <li class=""><a href="{{url('product-8')}}">傢俱類
+                </a></li>
+            <li class=""><a href="{{url('product-9')}}">其他
+                </a></li>
+        </ul>
 
-        <div class="row">
+        @if(count($products)==0)
+            <h1>沒有商品QQ</h1>
+        @endif
 
-            <div class="col-sm-8 blog main">
-                <ul class="nav nav-tabs" style="margin-bottom: 15px;">
-                    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Home<div class="ripple-container"></div></a></li>
-                    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Profile<div class="ripple-container"></div></a></li>
-                    <li class="disabled"><a>Disabled<div class="ripple-container"></div></a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="bootstrap-elements.html" data-target="#" aria-expanded="false">
-                            Dropdown <span class="caret"></span>
-                            <div class="ripple-container"></div></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#dropdown1" data-toggle="tab">Action</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#dropdown2" data-toggle="tab">Another action</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-                    @foreach($products as $product)
-                        <div class="panel panel-default product">
-                            <div class="panel-heading" role="tab" id="heading{{$product->id}}" data-toggle="collapse"
-                                 data-parent="#accordion" href="#collapse{{$product->id}}" aria-expanded="true"
-                                 aria-controls="collapse{{$product->id}}">
-                                <h3 class="panel-title">
-                                    {{$product->name}}
-                                </h3>
-                                <h5 align="right">
-                                    <a data-toggle="modal" href="#purchasers{{$product->id}}">有意願購買者(
-                                        <b>{{count($product->purchases)}}</b>
-                                        )</a>&nbsp;
-                                    <a data-toggle="modal" href="#comments{{$product->id}}">問與答(
-                                        <b>{{count($product->comments)}}</b> )</a>&nbsp;
-                                    單價: <b>{{$product->price}}</b> &nbsp; 數量: <b>{{$product->amount}}</b>
-                                </h5>
+        @foreach($products as $product)
+            <div class="col-md-2 product" style="padding: 10px; height: 365px;">
+                <div class="uk-card uk-card-default">
+                    <div class="uk-card-media-top" style="height: 150px; overflow: hidden;">
+                        @php($photo = $product->photos()->get()->first())
+                        <a href="{{url('detail/'.$product->id)}}">
+                        <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}" class="img-thumbnail product_pic"
+                             style="max-height: 150px;"></a>
+                    </div>
+                    <div class="uk-card-body" style="padding: 5px;">
+                        <div class="">
+                            <img src="//graph.facebook.com/{{$product->user->facebook_id}}/picture?width=30&height=30">
+                            <a href="https://facebook.com/{{$product->user->facebook_id}}">{{$product->user->name}}</a>
+                        </div>
+                        <div class="uk-card-body" style="padding: 10px;">
+                            @php($tmp = substr($product->name, 0, 34))
+                            <p style="word-break: break-all;">{{ $tmp.(strlen($tmp)==34 ? '...':'') }}</p>
+                        </div>
+
+                        <div class="uk-card-body" style="padding: 5px;">
+                            <div class="col-md-6" style="color: #2ca02c; font-weight: bold; padding: 5px;">
+                                <p><span class="glyphicon glyphicon-usd" aria-hidden="true"
+                                         style="font-size: 12px;"></span>{{$product->price}}</p>
                             </div>
-                            <div id="collapse{{$product->id}}" class="panel-collapse collapse" role="tabpanel"
-                                 aria-labelledby="heading{{$product->id}}">
-                                <div class="panel-body">
-                                    <div class="col-md-3">
-                                        @php($photo = $product->photos()->get()->first())
-                                        <a data-toggle="modal" data-target="#img{{$product->id}}"
-                                           href="#img{{$product->id}}"><img
-                                                    src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}"
-                                                    width="100%"/></a>
-                                    </div>
-                                    <div class="col-md-9">
-                                        賣家 :
-                                        <img src="//graph.facebook.com/{{$product->user->facebook_id}}/picture?width=30&height=30">
-                                        <a href="https://facebook.com/{{$product->user->facebook_id}}">{{$product->user->name}}</a>
-                                        <p>{{$product->description}}</p>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <form class="form-inline" method="post" action="purchase/{{$product->id}}">
-                                        {{csrf_field()}}
-                                        <div class="form-group col-md-5">
-                                            <label for="amount{{$product->id}}">數量:</label>
-                                            <input type="number" name="amount" id="amount{{$product->id}}"
-                                                   class="form-control" min="1" max="{{$product->amount}}"
-                                                   required oninput="input({{$product->id}},{{$product->price}});">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="submit" role="button" class="btn btn-default">
-                                        </div>
-                                        <div class="form-group col-md-5">
-                                            <label for="output{{$product->id}}">總價:</label>
-                                            <input id="output{{$product->id}}" class="form-control" disabled>
-                                        </div>
-                                    </form>
-                                </div>
+                            <div class="col-md-6" style=" padding: 5px;">
+                                <p><span class="glyphicon glyphicon-inbox" aria-hidden="true"
+                                         style="font-size: 12px;"></span> {{$product->price}}</p>
                             </div>
                         </div>
 
-                        <!-- Image Carousel -->
-                        <div class="modal fade" id="img{{$product->id}}" tabindex="-1" role="dialog"
-                             aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                                        <!-- Indicators -->
-                                        <ol class="carousel-indicators">
-                                            @foreach( $product->photos as $photo )
-                                                <li data-target="#carousel-example-generic"
-                                                    data-slide-to="{{ $loop->index }}"
-                                                    class="{{ $loop->first ? 'active' : '' }}"></li>
-                                            @endforeach
-                                        </ol>
-
-                                        <!-- Wrapper for slides -->
-                                        <div class="carousel-inner" role="listbox">
-                                            @foreach( $product->photos as $photo )
-                                                <div class="item {{$loop->first ? 'active':'' }}">
-                                                    <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}"
-                                                         alt="...">
-                                                    <div class="carousel-caption">
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-
-                                        <!-- Controls -->
-                                        <a class="left carousel-control" href="#carousel-example-generic" role="button"
-                                           data-slide="prev" onclick="$('.carousel').carousel('prev');">
-                                            <span class="icon-prev" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="right carousel-control" href="#carousel-example-generic" role="button"
-                                           data-slide="next" onclick="$('.carousel').carousel('next');">
-                                            <span class="icon-next" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
-                                </div>
+                        <div class="uk-card-footer" style="padding: 5px;">
+                            <div class="col-md-6">
+                                <p style="margin: 0 0 0 0;"><span class="glyphicon glyphicon-comment" aria-hidden="true"
+                                         style="font-size: 12px;"></span> {{$product->comments->count()}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p style=" margin: 0 0 0 0;"><a href="{{url('detail/'.$product->id)}}">more..</a></p>
                             </div>
                         </div>
-
-
-                        <!-- Purchasers modal -->
-                        <div class="modal fade" id="purchasers{{$product->id}}" tabindex="-1" role="dialog"
-                             aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">有意願購買者</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <ol>
-                                            @php($purchases = $product->purchases()->latest()->get())
-                                            @foreach($purchases as $purchase)
-                                                <li><a>{{$purchase->user->name}}</a>
-                                                    購買數量: {{$purchase->amount}}
-                                                    <span class="pull-right">{{$purchase->updated_at->diffForHumans()}}</span>
-                                                </li>
-                                            @endforeach
-                                        </ol>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">關閉
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Comments modal -->
-                        <div class="modal fade" id="comments{{$product->id}}" tabindex="-1" role="dialog"
-                             aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">問與答</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <ul class="list-unstyled">
-
-                                            @php($comments = $product->comments()->latest()->get())
-                                            @foreach($comments as $comment)
-                                                <li>
-                                                    <a>{{$comment->user->name}}</a>
-                                                    {{$comment->comment}}
-                                                    <span class="pull-right">{{$comment->updated_at->diffForHumans()}}</span>
-                                                </li>
-                                            @endforeach
-
-                                        </ul>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <form class="row" method="post" enctype="application/x-www-form-urlencoded" action="comment/{{$product->id}}">
-                                            {{csrf_field()}}
-                                            <div class="col-md-10">
-                                                <input type="text" class="form-control" id="comment" name="comment"
-                                                       placeholder="想問什麼?" required/>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <button type="submit" class="btn btn-primary">送出</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    @endforeach
-
+                    </div>
                 </div>
-                <div>{{ $products->render() }}</div>
-
             </div>
 
+        @endforeach
+
+
+        <div class="col-md-12  text-center">{{ $products->render() }}</div>
+
+
+    <!--
             <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
                 <div class="sidebar-module sidebar-module-inset">
                     <h4>關於</h4>
@@ -247,18 +131,11 @@
                 </div>
             </div><!-- /.blog-sidebar -->
 
-        </div><!-- /.row -->
 
     </div>
 
 @endsection
 
 @section('scripts')
-    <script>
-        function input(pid, price) {
-            var x = document.getElementById('amount' + pid).value;
-            document.getElementById('output' + pid).value = price * x;
-        }
-    </script>
 
 @endsection

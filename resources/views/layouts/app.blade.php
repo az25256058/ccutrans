@@ -15,6 +15,17 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Bootstrap Material Design -->
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap-material-design/dist/css/ripples.min.css">
+
 
 </head>
 <body>
@@ -41,7 +52,7 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
-                <p class="navbar-text"><img src="https://graph.facebook.com/{{Auth::user()->facebook_id}}/picture?width=30&height=30"> {{Auth::user()->name}}</p>
+                <p class="navbar-text"><img src="https://graph.facebook.com/{{Auth::user()->facebook_id}}/picture?width=20&height=20"> {{Auth::user()->name}}</p>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -89,6 +100,9 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+
+<script src="../node_modules/bootstrap-material-design/dist/css/ripples.min.js"></script>
+<script src="../node_modules/bootstrap-material-design/dist/css/bootstrap-material-design.min.js"></script>
 
     @yield('scripts')
 </body>

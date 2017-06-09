@@ -19,13 +19,27 @@
     <div class="container">
 
         <div class="blog-header">
-            <h1 class="blog-title">The Bootstrap Blog</h1>
-            <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+
         </div>
 
         <div class="row">
 
             <div class="col-sm-8 blog main">
+                <ul class="nav nav-tabs" style="margin-bottom: 15px;">
+                    <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Home<div class="ripple-container"></div></a></li>
+                    <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">Profile<div class="ripple-container"></div></a></li>
+                    <li class="disabled"><a>Disabled<div class="ripple-container"></div></a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="bootstrap-elements.html" data-target="#" aria-expanded="false">
+                            Dropdown <span class="caret"></span>
+                            <div class="ripple-container"></div></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#dropdown1" data-toggle="tab">Action</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#dropdown2" data-toggle="tab">Another action</a></li>
+                        </ul>
+                    </li>
+                </ul>
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
                     @foreach($products as $product)

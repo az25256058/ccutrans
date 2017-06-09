@@ -15,7 +15,9 @@ class SellController extends Controller
 {
     public function index()
     {
-        $products = Product::where('user_id', Auth::id())->get();
+        $products = Product::where('user_id', Auth::id())
+                    ->with('purchases')
+                    ->get();
         return view('sell', compact('products'));
     }
 
@@ -74,6 +76,34 @@ class SellController extends Controller
         }
 
         return response()->json(['response'=> Storage::get('public/ab6a15bf7f7d25194ab3a00682d90c4b-KZAmEjyh.jpeg')]);
+    }
+
+    public function update(Request $request){
+
+        $this->validate($request,[
+
+            'price' => 'required|integer|min:0',
+            'amount' => 'required|integer|min:0',
+
+        ]);
+
+        $products = Product::find($request->productid);
+        $products->price = $request->price;
+        $products->amount = $request->amount;
+        $products->description = $request->description;
+        $products->save();
+
+        return redirect('/seller');
+
+    }
+
+    public function destroy($pid){
+
+        $products = Product::findOrFail($pid);
+        $products->delete();
+
+        return redirect('/seller');
+
     }
 
 }

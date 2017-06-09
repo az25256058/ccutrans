@@ -31,15 +31,18 @@
                             @foreach($purchases as $purchase)
                                 <tr>
                                     <td>
-                                        <img src="//graph.facebook.com/{{$purchase->facebook_id}}/picture?width=30&height=30">
-                                        <a href="https://facebook.com/{{$purchase->facebook_id}}">{{$purchase->sellerName}}</a>
-                                        {{$purchase->name}}
+                                        <img src="//graph.facebook.com/{{$purchase->user->facebook_id}}/picture?width=30&height=30">
+                                        <a href="https://facebook.com/{{$purchase->user->facebook_id}}">{{$purchase->product->user->name}}</a>
+                                        {{$purchase->product->name}}
                                     </td>
                                     <td>
                                         {{$purchase->amount}}
                                     </td>
                                     <td>
-                                        {{$purchase->price * $purchase->amount}}
+                                        {{$purchase->product->price * $purchase->amount}}
+                                    </td>
+                                    <td>
+                                        {{$purchase->product->description}}
                                     </td>
                                     <td>
                                         <a href="/cancel/{{$purchase->product_id}}">取消</a>

@@ -22,6 +22,7 @@
                         <th>商品訊息</th>
                         <th>數量</th>
                         <th>小計(元)</th>
+                        <th>購買者</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -31,12 +32,22 @@
                             <td>{{ $product->name  }}</td>
                             <td>{{ $product->amount }}</td>
                             <td>{{ $product->price }}</td>
+                            @if($product->purchases->isEmpty())
+                                <td>尚無購買者</td>
+                            @endif
+                            @foreach($product->purchases as $purchase)
+                                <td>
+                                    <img src="//graph.facebook.com/{{$purchase->user->facebook_id}}/picture?width=30&height=30">
+                                    <a href="https://facebook.com/{{$purchase->user->facebook_id}}">{{$purchase->user->name}}</a>
+                                </td>
+                            @endforeach
                             <td><a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
                                    aria-controls="detail{{$product->id}}" href="#detail{{$product->id}}">詳細資料</a><br/>
                                 <a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
                                    aria-controls="edit{{$product->id}}" href="#edit{{$product->id}}">編輯</a><br/>
-                                <a data-toggle="modal" href="#cancel{{$product->id}}"
-                                   data-target=".bs-example-modal-lg">取消</a>
+                              <!--  <a data-toggle="modal" href="/delete/{{$product->id}}"
+                                   data-target=".bs-example-modal-lg">取消</a> !-->
+                                <a href="/delete/{{$product->id}}">取消</a>
                             </td>
                         </tr>
                         <tr>
@@ -52,7 +63,7 @@
                                     </div>
                                     <div class="col-md-9" style="padding-top: 15px; padding-bottom: 15px;">
                                         <p>詳細資料:</p>
-                                        <p>一個滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車滑板車阿</p>
+                                        <p>{{$product->description}}</p>
                                     </div>
                                 </div>
                             </td>
@@ -62,14 +73,40 @@
                                 <div id="edit{{$product->id}}" class="collapse" role="tabpanel"
                                      aria-labelledby="heading{{$product->id}}">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                                        richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                                        brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                                        sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                                        shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                                        cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                        Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
-                                        you probably haven't heard of them accusamus labore sustainable VHS.
+                                        <form class="form-horizontal" method="post" action="update" enctype="multipart/form-data">
+                                            {{ csrf_field() }}
+
+                                            <div class="form-group">
+                                                <input type="hidden" name="productid" value="{{$product->id}}"/>
+                                                <div class="col-md-4" style="padding-left: 0px;">
+                                                    <label for="price">單價</label>
+                                                    <input type="number" class="form-control" id="price" name="price" min="0"
+                                                           placeholder="{{$product->price}}" required/>
+                                                    <br/>
+                                                    @if($errors -> has('price'))
+                                                        <div class="alert alert-warning" role="alert">{{  $errors->first('price') }}</div>
+                                                    @endif
+                                                </div>
+                                                <div class="col-md-4" style="padding-left: 7px; padding-right: 7px;">
+                                                    <label for="amount">數量</label>
+                                                    <input type="number" class="form-control" id="amount" name="amount" min="1"
+                                                           placeholder="{{$product->amount}}" required/>
+                                                    <br/>
+                                                    @if($errors -> has('amount'))
+                                                        <div class="alert alert-warning" role="alert">{{  $errors->first('amount') }}</div>
+                                                    @endif
+                                                </div>
+                                                <label for="text">
+                                                    商品描述</label>
+                                                <textarea name="description" id="text" class="form-control" rows="5" cols="15"
+                                                          required="required" placeholder="{{$product->description}}"></textarea>
+                                                @if($errors -> has('description'))
+                                                    <div class="alert alert-warning" role="alert">{{  $errors->first('description') }}</div>
+                                                @endif
+                                                <br/>
+                                                <button class="btn btn-lg btn-primary" type="submit">確定</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </td>

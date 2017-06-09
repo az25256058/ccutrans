@@ -12,17 +12,15 @@ class PurchaseController extends Controller
 {
     public function index()
     {
+        $purchases = Purchase::where('user_id',Auth::id())
+                     ->with('product','user')
+                    ->get();
 
-        $purchases = DB::table('purchases')
-                ->join('products','purchases.product_id','=','products.id')
-                ->join('users','users.id','=','products.user_id')
-                ->where('purchases.user_id',Auth::id())
-                ->select('products.price','products.name','purchases.amount','purchases.*','users.facebook_id','users.name as sellerName')
-                ->get();
+
         return view('purchase',compact('purchases'));
     }
 
-    public function destory($pid){
+    public function destroy($pid){
 
         DB::table('purchases')
             ->where([

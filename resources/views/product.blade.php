@@ -52,7 +52,7 @@
 
 
         @foreach($products as $product)
-            <div class="col-md-2 product" style="padding: 10px; height: 365px;">
+            <div class="col-md-2 product" style="padding: 5px; height: 365px;">
                 <div class="uk-card uk-card-default">
                     <div class="uk-card-media-top" style="height: 150px; overflow: hidden;">
                         @php($photo = $product->photos()->get()->first())
@@ -95,6 +95,8 @@
             </div>
 
         @endforeach
+
+
 
 
         <div class="col-md-12  text-center">{{ $products->render() }}</div>

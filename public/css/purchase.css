@@ -43,9 +43,8 @@ body {
 }
 
 .slide-carousel .carousel-indicators li {
-    border-radius: 0;
-    width: 20px;
-    height: 6px;
+
+
 }
 
 .slide-carousel .carousel-indicators .active {

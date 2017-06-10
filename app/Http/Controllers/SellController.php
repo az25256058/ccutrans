@@ -16,7 +16,7 @@ class SellController extends Controller
     public function index()
     {
         $products = Product::where('user_id', Auth::id())
-                    ->with('purchases')
+                    ->with('purchases','comments')
                     ->get();
         return view('sell', compact('products'));
     }

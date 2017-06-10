@@ -11,6 +11,12 @@
             <li role="presentation">
                 <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">張貼販賣</a>
             </li>
+            <li role="presentation">
+                <a href="#comment" aria-controls="comment" role="tab" data-toggle="tab">未回覆評論</a>
+            </li>
+            <li role="presentation">
+                <a href="#commented" aria-controls="commented" role="tab" data-toggle="tab">已回覆評論</a>
+            </li>
         </ul>
 
         <!-- Tab panes -->
@@ -22,7 +28,6 @@
                         <th>商品訊息</th>
                         <th>數量</th>
                         <th>小計(元)</th>
-                        <th>購買者</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -32,20 +37,14 @@
                             <td>{{ $product->name  }}</td>
                             <td>{{ $product->amount }}</td>
                             <td>{{ $product->price }}</td>
-                            @if($product->purchases->isEmpty())
-                                <td>尚無購買者</td>
-                            @endif
-                            @foreach($product->purchases as $purchase)
-                                <td>
-                                    <img src="//graph.facebook.com/{{$purchase->user->facebook_id}}/picture?width=30&height=30">
-                                    <a href="https://facebook.com/{{$purchase->user->facebook_id}}">{{$purchase->user->name}}</a>
-                                </td>
-                            @endforeach
-                            <td><a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
+                            <td>
+                                <a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
                                    aria-controls="detail{{$product->id}}" href="#detail{{$product->id}}">詳細資料</a><br/>
                                 <a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
                                    aria-controls="edit{{$product->id}}" href="#edit{{$product->id}}">編輯</a><br/>
-                              <!--  <a data-toggle="modal" href="/delete/{{$product->id}}"
+                                <a data-toggle="collapse" data-parent="#tbody" aria-expanded="true"
+                                   aria-controls="purchaser{{$product->id}}" href="#purchaser{{$product->id}}">購買者</a><br/>
+                            <!--  <a data-toggle="modal" href="/delete/{{$product->id}}"
                                    data-target=".bs-example-modal-lg">取消</a> !-->
                                 <a href="/delete/{{$product->id}}">取消</a>
                             </td>
@@ -109,6 +108,56 @@
                                             </div>
                                         </form>
                                     </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="padding-bottom: 0px; padding-top: 0px;">
+                                <div id="purchaser{{$product->id}}" class="collapse" role="tabpanel"
+                                     aria-labelledby="heading{{$product->id}}">
+                                    <div class="panel panel-body">
+
+
+                                       <div class="panel-body">
+                                           <table class="table">
+                                               <tbody>
+                                               @if($product->purchases->isEmpty())
+                                                   <td>尚無購買者</td>
+                                               @else
+
+                                               <thead>
+                                               <tr>
+                                                   <th>購買者</th>
+                                                   <th>購買數量</th>
+                                                   <th>金額</th>
+                                               </tr>
+                                               </thead>
+
+
+                                               @foreach($product->purchases as $purchase)
+                                                <tr>
+                                                       <td>
+                                                           <img src="//graph.facebook.com/{{$purchase->user->facebook_id}}/picture?width=50&height=50">
+                                                           <a href="https://facebook.com/{{$purchase->user->facebook_id}}">{{$purchase->user->name}}</a>
+                                                       </td>
+                                                       <td>
+                                                            {{$purchase->amount}}
+                                                       </td>
+                                                        <td>
+                                                            {{$purchase->amount*$purchase->product->price}}
+                                                        </td>
+                                                </tr>
+                                               @endforeach
+                                               @endif
+                                               </tbody>
+
+                                           </table>
+                                       </div>
+
+                                    </div>
+
+
+
                                 </div>
                             </td>
                         </tr>
@@ -238,6 +287,177 @@
                     </form>
                 </div>
             </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="comment">
+                @php($flag=0)
+                @foreach($products as $product)
+                    @php($flag=0)
+                    @php($cnt=0)
+                    @foreach($product->comments as $comment)
+                        @if(is_null($comment->response))
+                            @php($cnt++)
+                        @endif
+
+                    @endforeach
+                    @if($product->comments->count()==0||$cnt==0)
+                        @php($flag=1)
+                    @endif
+
+
+                    @if($flag == 0)
+
+                <div class="panel panel-default col-md-10 col-md-offset-1" style="padding: 0;margin-top:10px;">
+                    <div class="panel-heading" >
+
+                        <div class="row">
+
+                            <div class="col-md-8">
+                                <p>{{$product->name}}</p>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="panel-body list-group">
+                        @foreach($product->comments as $comment)
+                            @if(is_null($comment->response))
+                                <div class="list-group-item">
+                                    <div class="row-action-primary">
+                                        <img src="//graph.facebook.com/{{$comment->user->facebook_id}}/picture?width=100&height=100"
+                                             class="img-circle">
+                                    </div>
+                                    <div class="row-content">
+                                        <div class="least-content"><p>{{$comment->updated_at->diffForHumans()}}</p></div>
+                                        @if(Auth::id()==$product->user->id && is_null($comment->response))
+                                            <div class="action-secondary" style="padding-top: 10px;">
+                                                <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#response">
+                        <span class="glyphicon glyphicon-share-alt" aria-hidden="true"
+                              style="font-size: 12px;"></span> 回覆</a></div>
+                                            <div class="modal" id="response">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                                ×
+                                                            </button>
+                                                            <p>
+                                                                <img src="//graph.facebook.com/{{$comment->user->facebook_id}}/picture?width=50&height=50"
+                                                                     class="img-circle">&nbsp;&nbsp;{{$comment->comment}}<span
+                                                                        class="pull-right">{{$comment->updated_at->diffForHumans()}}</span>
+                                                            </p>
+                                                        </div>
+
+                                                        <form method="post" action="{{url('response/'.$comment->id)}}"
+                                                              enctype="application/x-www-form-urlencoded">
+
+                                                            {{csrf_field()}}
+                                                            <div class="modal-body">
+                                                                <div class="form-group{{ $errors->has('response') ? ' has-error' : '' }} label-floating">
+                                                                    <label for="response" class="control-label">回覆留言</label>
+                                                                    <input id="response" class="form-control" type="text"
+                                                                           name="response" required>
+                                                                    @if ($errors->has('response'))
+                                                                        <span class="help-block">
+                                                            <strong>{{ $errors->first('response') }}</strong>
+                                                        </span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">回覆</button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <h4 class="list-group-item-heading"><a
+                                                    href="https://facebook.com/{{$comment->user->facebook_id}}">{{$comment->user->name}}</a>
+                                        </h4>
+
+                                        <p class="list-group-item-text">{{$comment->comment}}</p>
+                                        @if(!is_null($comment->response))
+                                            <p class="list-group-item-text"><strong style="font-weight: bold;">賣家回覆</strong> : {{$comment->response}}
+                                                <span class="pull-right">{{$comment->response_at->diffForHumans()}}</span></p>
+                                        @endif
+                                    </div>
+                                </div>
+
+                            @endif
+                        @endforeach
+                    </div>
+
+                </div>
+                    @endif
+                @endforeach
+
+            </div>
+
+
+            <div role="tabpanel" class="tab-pane fade" id="commented">
+
+                @foreach($products as $product)
+                    @php($flag=0)
+                    @php($cnt=0)
+                    @foreach($product->comments as $comment)
+                        @if(!is_null($comment->response))
+                            @php($cnt ++)
+                        @endif
+                    @endforeach
+                    @if($product->comments->count()!=0 && $cnt!=0)
+
+                        <div class="panel panel-default col-md-10 col-md-offset-1" style="padding: 0;margin-top:10px;">
+                            <div class="panel-heading" >
+
+                                <div class="row">
+
+                                    <div class="col-md-8">
+                                        <p>{{$product->name}}</p>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="panel-body list-group">
+                                @foreach($product->comments as $comment)
+                                   @if(!is_null($comment->response))
+                                    <div class="list-group-item">
+                                        <div class="row-action-primary">
+                                            <img src="//graph.facebook.com/{{$comment->user->facebook_id}}/picture?width=100&height=100"
+                                                 class="img-circle">
+                                        </div>
+                                        <div class="row-content">
+                                            <div class="least-content"><p>{{$comment->updated_at->diffForHumans()}}</p></div>
+
+
+                                            <h4 class="list-group-item-heading"><a
+                                                        href="https://facebook.com/{{$comment->user->facebook_id}}">{{$comment->user->name}}</a>
+                                            </h4>
+
+                                            <p class="list-group-item-text">{{$comment->comment}}</p>
+                                            @if(!is_null($comment->response))
+                                                <p class="list-group-item-text"><strong style="font-weight: bold;">賣家回覆</strong> : {{$comment->response}}
+                                                    <span class="pull-right">{{$comment->response_at->diffForHumans()}}</span></p>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="list-group-separator"></div>
+                                    @endif
+                                @endforeach
+                            </div>
+
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+
         </div>
 
     </div>

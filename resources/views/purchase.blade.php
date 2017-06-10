@@ -1,63 +1,93 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-lg-8 col-md-offset-2">
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#home" aria-controls="home" role="tab" data-toggle="tab">我的購物車</a>
-            </li>
-        </ul>
+    <div class="container" style="padding:20px">
 
+            <!-- Begin of rows -->
+            @php($count = 0)
+            @foreach($purchases as $purchase)
+                @php($count ++)
+            <div class="row carousel-row">
+                <div class="col-xs-8 col-xs-offset-2 slide-row">
+                    <div id="carousel-{{$count}}" class="carousel slide slide-carousel" data-ride="carousel">
+                        <!-- Indicators -->
 
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in active" id="home">
-                @if($purchases->isEmpty())
-                    <div class="alert alert-info text-center" role="alert">尚無購買</div>
-                @endif
+                        <ol class="carousel-indicators">
+                            @php($len = count($purchase->product->photos))
+                            @for($i = 0;$i<$len;$i++)
+                                @if($i==0)
 
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>商品訊息</th>
-                            <th>數量</th>
-                            <th>小計(元)</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            @foreach($purchases as $purchase)
-                                <tr>
-                                    <td>
-                                        <img src="//graph.facebook.com/{{$purchase->user->facebook_id}}/picture?width=30&height=30">
-                                        <a href="https://facebook.com/{{$purchase->user->facebook_id}}">{{$purchase->product->user->name}}</a>
-                                        {{$purchase->product->name}}
-                                    </td>
-                                    <td>
-                                        {{$purchase->amount}}
-                                    </td>
-                                    <td>
-                                        {{$purchase->product->price * $purchase->amount}}
-                                    </td>
-                                    <td>
-                                        {{$purchase->product->description}}
-                                    </td>
-                                    <td>
-                                        <a href="/cancel/{{$purchase->product_id}}">取消</a>
-                                    </td>
-                                </tr>
+                                    <li data-target="#carousel-{{$count}}" data-slide-to="{{$len}}" class="active"></li>
+                                @else
+                                    <li data-target="#carousel-{{$count}}" data-slide-to="{{$len}}"></li>
+                                @endif
+                            @endfor
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            @php($cnt = 1)
+                            @foreach($purchase->product->photos as $photo)
+                                @if($cnt == 1)
+                                <div class="item active">
+                                <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}?rand={{$cnt}}" alt="Image" min-width="150px" min-height="150px">
+                                </div>
+                                @else
+                                    <div class="item">
+                                        <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}?rand={{$cnt}}" alt="Image" width="150px" height="150px">
+                                    </div>
+                                @endif
+
+                                @php($cnt = $cnt + 1)
                             @endforeach
+                        </div>
 
 
+                    </div>
+                    <div class="slide-content">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <h4>{{$purchase->product->name}}</h4>
 
-                    </tbody>
-                </table>
+                            </div>
+                            <div class="col-sm-6">
+                                <small>數量：{{$purchase->amount}}價格：{{$purchase->amount*$purchase->product->price}}</small>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <label>賣家：</label>
+                                <img src="//graph.facebook.com/{{$purchase->user->facebook_id}}/picture?width=20&height=20">
+                                <a href="https://facebook.com/{{$purchase->user->facebook_id}}">{{$purchase->product->user->name}}</a>
+                            </div>
+                        </div>
+                        <p>
+
+                            {{$purchase->product->description}}
+                        </p>
+                    </div>
+                    <div class="slide-footer">
+
+                        <span class="pull-right buttons">
+                            <a href="/detail/{{$purchase->product_id}}" >
+                                <button class="btn btn-sm btn-default"><i class="fa fa-fw fa-eye"></i> 詳細</button>
+                            </a>
+
+                            <a href="/cancel/{{$purchase->product_id}}">
+                                <button class="btn btn-sm btn-primary"><i class="fa fa-fw fa-times"></i> 取消</button>
+                            </a>
+                        </span>
+                    </div>
+                </div>
             </div>
+            @endforeach
+
         </div>
 
-    </div>
+
+
+
+
 @endsection
 
 @section('scripts')

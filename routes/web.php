@@ -37,6 +37,7 @@ Route::group(['middleware' => ['facebookLogin']], function (){
     Route::get('/detail/{pid}', 'ProductController@detail');
     Route::post('/purchase/{pid}', 'ProductController@purchase');
     Route::post('/comment/{pid}', 'ProductController@comment');
+    Route::post('/response/{cid}', 'ProductController@response');
 
 
 

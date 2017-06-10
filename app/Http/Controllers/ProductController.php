@@ -65,5 +65,18 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
+    public function response($cid, Request $request)
+    {
+        $this->validate($request,[
+            'response' => 'required|string|max:200'
+        ]);
+
+        Comment::where('id', $cid)->update([
+            'response' => $request->response,
+            'response_at' => date('Y-m-d H-i-s', mktime(date('H')+8, date('i'), date('s'), date('m'), date('d'), date('Y')) ),
+        ]);
+
+        return redirect()->back();
+    }
 
 }

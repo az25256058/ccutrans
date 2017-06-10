@@ -2,7 +2,7 @@
 
 @section('css')
     <style>
-        p{
+        p {
             word-break: break-all;
         }
     </style>
@@ -39,7 +39,7 @@
 
         <div class="modal fade" id="img{{$product->id}}" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                         <!-- Indicators -->
@@ -165,7 +165,6 @@
         <!-- Comments -->
 
 
-
     </div>
 
     <div class="panel panel-default col-md-10 col-md-offset-1" style="padding: 0;">
@@ -174,24 +173,99 @@
         </div>
         <div class="panel-body list-group">
             @foreach($product->comments as $comment)
+                <div class="list-group-item">
+                    <div class="row-action-primary">
+                        <img src="//graph.facebook.com/{{$comment->user->facebook_id}}/picture?width=100&height=100"
+                             class="img-circle">
+                    </div>
+                    <div class="row-content">
+                        <div class="least-content"><p>{{$comment->updated_at->diffForHumans()}}</p></div>
+                        @if(Auth::id()==$product->user->id && is_null($comment->response))
+                            <div class="action-secondary" style="padding-top: 10px;">
+                                <a role="button" class="btn btn-primary" data-toggle="modal" data-target="#response">
+                        <span class="glyphicon glyphicon-share-alt" aria-hidden="true"
+                              style="font-size: 12px;"></span> 回覆</a></div>
+                            <div class="modal" id="response">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                ×
+                                            </button>
+                                            <p>
+                                                <img src="//graph.facebook.com/{{$comment->user->facebook_id}}/picture?width=50&height=50"
+                                                     class="img-circle">&nbsp;&nbsp;{{$comment->comment}}<span
+                                                        class="pull-right">{{$comment->updated_at->diffForHumans()}}</span>
+                                            </p>
+                                        </div>
+
+                                        <form method="post" action="{{url('response/'.$comment->id)}}"
+                                              enctype="application/x-www-form-urlencoded">
+
+                                            {{csrf_field()}}
+                                            <div class="modal-body">
+                                                <div class="form-group{{ $errors->has('response') ? ' has-error' : '' }} label-floating">
+                                                    <label for="response" class="control-label">回覆留言</label>
+                                                    <input id="response" class="form-control" type="text"
+                                                           name="response" required>
+                                                    @if ($errors->has('response'))
+                                                        <span class="help-block">
+                                                            <strong>{{ $errors->first('response') }}</strong>
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">回覆</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <h4 class="list-group-item-heading"><a
+                                    href="https://facebook.com/{{$comment->user->facebook_id}}">{{$comment->user->name}}</a>
+                        </h4>
+
+                        <p class="list-group-item-text">{{$comment->comment}}</p>
+                        @if(!is_null($comment->response))
+                            <p class="list-group-item-text"><strong style="font-weight: bold;">賣家回覆</strong> : {{$comment->response}}
+                                <span class="pull-right">{{$comment->response_at->diffForHumans()}}</span></p>
+                        @endif
+                    </div>
+                </div>
+                <div class="list-group-separator"></div>
+            @endforeach
             <div class="list-group-item">
                 <div class="row-action-primary">
-                    <img src="//graph.facebook.com/{{$comment->user->facebook_id}}/picture?width=30&height=30">
+                    <img src="//graph.facebook.com/{{Auth::user()->facebook_id}}/picture?width=100&height=100"
+                         class="img-circle">
                 </div>
                 <div class="row-content">
-                    <div class="least-content"><p>{{$comment->updated_at->diffForHumans()}}</p></div>
-                    @if(Auth::id()==$product->user->id)
-                    <div class="action-secondary" style="padding-top: 10px;">
-                        <a role="button" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-share-alt" aria-hidden="true"
-                                style="font-size: 12px;"></span> 回覆</a></div>
-                    @endif
-                    <h4 class="list-group-item-heading"><a href="https://facebook.com/{{$comment->user->facebook_id}}">{{$comment->user->name}}</a></h4>
+                    <p class="list-group-item-heading" style="font-size: 16px;">有問題想問嗎?</p>
 
-                    <p class="list-group-item-text">{{$comment->comment}}</p>
                 </div>
+                <form class="form-horizontal" method="post" action="{{url('comment/'.$product->id)}}"
+                      enctype="application/x-www-form-urlencoded">
+                    {{csrf_field()}}
+                    <div class="form-group" style="padding-left: 15px;">
+                        <div class="col-md-1">
+                            <label for="tarea">留言</label>
+                        </div>
+                        <div class=" col-md-11 ">
+                            <textarea rows="5" class="form-control label-floating" id="tarea" name="comment"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">送出</button>
+                    </div>
+                </form>
             </div>
-                @endforeach
         </div>
     </div>
 

@@ -33,8 +33,12 @@ Route::group(['middleware' => ['facebookLogin']], function (){
     Route::post('/update','SellController@update');
     Route::get('/delete/{pid}','SellController@destroy');
 
+
+    Route::get('/detail/{pid}', 'ProductController@detail');
     Route::post('/purchase/{pid}', 'ProductController@purchase');
     Route::post('/comment/{pid}', 'ProductController@comment');
+
+
 
     Route::get('/cancel/{pid}','PurchaseController@destroy');
 });

@@ -13,12 +13,18 @@ class ProductController extends Controller
     public function index($category)
     {
         if ($category==0) {
-            $products = Product::latest()->paginate(10);
+            $products = Product::latest()->paginate(18);
             return view('product', ['products' => $products]);
         } else {
             $products = Product::latest()->where('category', (int)$category)->paginate(10);
             return view('product', ['products' => $products]);
         }
+    }
+
+    public function detail($pid)
+    {
+        $product = Product::where('id', $pid )->first();
+        return view('detail', compact('product'));
     }
 
     public function purchase($pid, Request $request)

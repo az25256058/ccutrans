@@ -69,7 +69,7 @@
                     <div class="slide-footer">
 
                         <span class="pull-right buttons">
-                            <a>
+                            <a href="/detail/{{$purchase->product_id}}" >
                                 <button class="btn btn-sm btn-default"><i class="fa fa-fw fa-eye"></i> 詳細</button>
                             </a>
 

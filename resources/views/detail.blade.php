@@ -142,18 +142,20 @@
                     <div class="panel-body">
                         <div class="form-inline">
                             <label for="amount">數量</label>
+                            @php($has_purchased = \App\Purchase::where('user_id', Auth::id())->where('product_id', $product->id)->first())
                             <input id="amount" name="amount" class="form-control" type="number" required min="1"
-                                   max="{{$product->amount}}">
+                                   max="{{$product->amount - $has_purchased->amount}}">
                             <small style="color: #5e5e5e">(剩餘{{$product->amount}}件)</small>
+                            <small style="color: #5e5e5e">(已購買{{$has_purchased->amount}}件)</small>
                         </div>
                     </div>
                     <div class="panel-body">
                         <div class="form-inline">
                             <img src="//graph.facebook.com/{{$product->user->facebook_id}}/picture?width=30&height=30">
                             <a href="https://facebook.com/{{$product->user->facebook_id}}">{{$product->user->name}}</a>&nbsp;&nbsp;
-                            <button class="btn btn-info"
+                            <a role="button" class="btn btn-info"
                                     onclick="window.open('https://facebook.com/{{$product->user->facebook_id}}')">聯絡賣家
-                            </button>
+                            </a>
                             <button type="submit" class="btn btn-success">確定購買!!</button>
                         </div>
                     </div>

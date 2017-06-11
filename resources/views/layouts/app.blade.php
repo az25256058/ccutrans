@@ -34,7 +34,7 @@
 
 
 </head>
-<body>
+<body style="padding: 0;">
 <div id="app">
 
     <nav class="navbar navbar-default navbar-static-top" >

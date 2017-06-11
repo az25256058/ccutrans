@@ -28,7 +28,10 @@ class SellController extends Controller
             'price' => 'required|integer|min:0',
             'category' => 'required|integer|min:1|max:9',
             'amount' => 'required|integer|min:0',
-            'images.*' => 'required|image',
+            'images' => 'required',
+            'images.*' => 'image',
+        ],[
+            'images' => '你必須上傳照片!!',
         ]);
 
         $files = $request->file('images');

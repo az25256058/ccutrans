@@ -46,11 +46,11 @@
                                    aria-controls="purchaser{{$product->id}}" href="#purchaser{{$product->id}}">購買者</a><br/>
                             <!--  <a data-toggle="modal" href="/delete/{{$product->id}}"
                                    data-target=".bs-example-modal-lg">取消</a> !-->
-                                <a href="/delete/{{$product->id}}">取消</a>
+                                <a href="{{url('delete/'.$product->id)}}">取消</a>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" style="padding-bottom: 0px; padding-top: 0px;">
+                            <td colspan="4" style="padding-bottom: 0; padding-top: 0;">
                                 <div id="detail{{$product->id}}" class="collapse" role="tabpanel"
                                      aria-labelledby="heading{{$product->id}}">
                                     <div class="col-md-3" style="padding-top: 15px; padding-bottom: 15px;">
@@ -68,20 +68,20 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" style="padding-bottom: 0px; padding-top: 0px;">
+                            <td colspan="4" style="padding-bottom: 0; padding-top: 0;">
                                 <div id="edit{{$product->id}}" class="collapse" role="tabpanel"
                                      aria-labelledby="heading{{$product->id}}">
                                     <div class="panel-body">
 
-                                        <form class="form-horizontal" method="post" action="update" enctype="multipart/form-data">
+                                        <form class="form-horizontal" method="post" action="{{url('update')}}" enctype="multipart/form-data">
                                             {{ csrf_field() }}
 
                                             <div class="form-group">
                                                 <input type="hidden" name="productid" value="{{$product->id}}"/>
-                                                <div class="col-md-4" style="padding-left: 0px;">
+                                                <div class="col-md-4" style="padding-left: 0;">
                                                     <label for="price">單價</label>
                                                     <input type="number" class="form-control" id="price" name="price" min="0"
-                                                           placeholder="{{$product->price}}" required/>
+                                                           value="{{$product->price}}" required/>
                                                     <br/>
                                                     @if($errors -> has('price'))
                                                         <div class="alert alert-warning" role="alert">{{  $errors->first('price') }}</div>
@@ -90,7 +90,7 @@
                                                 <div class="col-md-4" style="padding-left: 7px; padding-right: 7px;">
                                                     <label for="amount">數量</label>
                                                     <input type="number" class="form-control" id="amount" name="amount" min="1"
-                                                           placeholder="{{$product->amount}}" required/>
+                                                           value="{{$product->amount}}" required/>
                                                     <br/>
                                                     @if($errors -> has('amount'))
                                                         <div class="alert alert-warning" role="alert">{{  $errors->first('amount') }}</div>
@@ -99,7 +99,7 @@
                                                 <label for="text">
                                                     商品描述</label>
                                                 <textarea name="description" id="text" class="form-control" rows="5" cols="15"
-                                                          required="required" placeholder="{{$product->description}}"></textarea>
+                                                          required="required">{{$product->description}}</textarea>
                                                 @if($errors -> has('description'))
                                                     <div class="alert alert-warning" role="alert">{{  $errors->first('description') }}</div>
                                                 @endif
@@ -112,7 +112,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" style="padding-bottom: 0px; padding-top: 0px;">
+                            <td colspan="4" style="padding-bottom: 0; padding-top: 0;">
                                 <div id="purchaser{{$product->id}}" class="collapse" role="tabpanel"
                                      aria-labelledby="heading{{$product->id}}">
                                     <div class="panel panel-body">
@@ -210,7 +210,7 @@
             <div role="tabpanel" class="tab-pane fade" id="profile">
 
                 <div class="jumbotron" style="padding: 50px;">
-                    <form class="form-horizontal" method="post" action="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="post" action="{{url('post')}}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -222,7 +222,7 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <div class="col-md-4" style="padding-left: 0px;">
+                            <div class="col-md-4" style="padding-left: 0;">
                                 <label for="price">單價</label>
                                 <input type="number" class="form-control" id="price" name="price" min="0"
                                        placeholder="元" required/>
@@ -240,7 +240,7 @@
                                     <div class="alert alert-warning" role="alert">{{  $errors->first('amount') }}</div>
                                 @endif
                             </div>
-                            <div class="col-md-4" style="padding-right: 0px;">
+                            <div class="col-md-4" style="padding-right: 0;">
                                 <label for="inlineFormCustomSelect">商品種類</label>
                                 <select class="custom-select mb-2 mr-sm-2 mb-sm-0 form-control"
                                         id="inlineFormCustomSelect"
@@ -267,12 +267,14 @@
                         <div class="form-group">
                             <label for="images[]">上傳照片</label>
                             <small>(Ctrl+左鍵可以一次上傳多張相片)</small>
-                            <br/>
                             <input type="file" id="images[]" name="images[]" multiple/> <br/>
-                            @if($errors -> has('images.*'))
-                                <div class="alert alert-warning" role="alert">{{  $errors->first('images.*') }}</div>
-                            @endif
                         </div>
+                        @if($errors -> has('images'))
+                            <div class="alert alert-warning" role="alert">{{  $errors->first('images.*') }}</div>
+                        @endif
+                        @if($errors -> has('images.*'))
+                            <div class="alert alert-warning" role="alert">{{  $errors->first('images.*') }}</div>
+                        @endif
                         <div class="form-group">
                             <label for="text">
                                 商品描述</label>

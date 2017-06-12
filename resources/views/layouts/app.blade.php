@@ -54,8 +54,11 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <p class="navbar-text"><img src="https://graph.facebook.com/{{Auth::user()->facebook_id}}/picture?width=20&height=20"> {{Auth::user()->name}}</p>
+                @if(Auth::guest())
 
+                @else
+                <p class="navbar-text"><img src="https://graph.facebook.com/{{Auth::user()->facebook_id}}/picture?width=20&height=20"> {{Auth::user()->name}}</p>
+                @endif
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">

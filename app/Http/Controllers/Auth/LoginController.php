@@ -81,7 +81,7 @@ class LoginController extends Controller
 
         auth()->login($exists);
 
-        return redirect('home');
+        return redirect('/product-0');
 
 
     }

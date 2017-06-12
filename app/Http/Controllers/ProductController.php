@@ -53,7 +53,7 @@ class ProductController extends Controller
     public function comment($pid, Request $request)
     {
         $this->validate($request,[
-            'comment' => 'required|string|max:200',
+            'comment' => 'required|string|max:10000',
         ]);
 
         Comment::create([
@@ -68,12 +68,12 @@ class ProductController extends Controller
     public function response($cid, Request $request)
     {
         $this->validate($request,[
-            'response' => 'required|string|max:200'
+            'response' => 'required|string|max:10000'
         ]);
 
         Comment::where('id', $cid)->update([
             'response' => $request->response,
-            'response_at' => date('Y-m-d H-i-s', mktime(date('H')+8, date('i'), date('s'), date('m'), date('d'), date('Y')) ),
+            'response_at' => date('Y-m-d H-i-s'),
         ]);
 
         return redirect()->back();

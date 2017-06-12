@@ -144,9 +144,9 @@
                             <label for="amount">數量</label>
                             @php($has_purchased = \App\Purchase::where('user_id', Auth::id())->where('product_id', $product->id)->first())
                             <input id="amount" name="amount" class="form-control" type="number" required min="1"
-                                   max="{{$product->amount - $has_purchased->amount}}">
+                                   max="{{$product->amount - ( is_null($has_purchased)? 0 : $has_purchased->amount )}}">
                             <small style="color: #5e5e5e">(剩餘{{$product->amount}}件)</small>
-                            <small style="color: #5e5e5e">(已購買{{$has_purchased->amount}}件)</small>
+                            <small style="color: #5e5e5e">(已購買{{( is_null($has_purchased)? 0 : $has_purchased->amount )}}件)</small>
                         </div>
                     </div>
                     <div class="panel-body">

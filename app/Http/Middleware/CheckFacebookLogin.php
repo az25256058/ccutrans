@@ -17,6 +17,7 @@ class CheckFacebookLogin
      */
     public function handle($request, Closure $next)
     {
+
         Carbon::setLocale('zh-tw');
         if(Auth::check())
             return $next($request);

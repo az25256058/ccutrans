@@ -46,7 +46,7 @@
                                    aria-controls="purchaser{{$product->id}}" href="#purchaser{{$product->id}}">購買者</a><br/>
                             <!--  <a data-toggle="modal" href="/delete/{{$product->id}}"
                                    data-target=".bs-example-modal-lg">取消</a> !-->
-                                <a href="{{url('delete/'.$product->id)}}">取消</a>
+                                <a href="{{url('delete/'.$product->id)}}">刪除</a>
                             </td>
                         </tr>
                         <tr>
@@ -130,11 +130,12 @@
                                                    <th>購買者</th>
                                                    <th>購買數量</th>
                                                    <th>金額</th>
+                                                   <th>時間</th>
                                                </tr>
                                                </thead>
 
 
-                                               @foreach($product->purchases as $purchase)
+                                               @foreach($product->purchases()->latest()->get() as $purchase)
                                                 <tr>
                                                        <td>
                                                            <img src="//graph.facebook.com/{{$purchase->user->facebook_id}}/picture?width=50&height=50">
@@ -145,6 +146,9 @@
                                                        </td>
                                                         <td>
                                                             {{$purchase->amount*$purchase->product->price}}
+                                                        </td>
+                                                        <td>
+                                                            {{$purchase->updated_at->diffForHumans()}}
                                                         </td>
                                                 </tr>
                                                @endforeach

@@ -57,7 +57,7 @@
                                         @php($photo = $product->photos()->get()->first())
                                         <a data-toggle="modal" data-target="#img{{$product->id}}"
                                            href="#img{{$product->id}}"><img
-                                                    src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}"
+                                                    src="{{ asset('storage/'.$photo->photo_name.'.'.$photo->photo_type) }}"
                                                     width="100%"/></a>
                                     </div>
                                     <div class="col-md-9" style="padding-top: 15px; padding-bottom: 15px;">
@@ -184,7 +184,7 @@
                                         <div class="carousel-inner" role="listbox">
                                             @foreach( $product->photos as $photo )
                                                 <div class="item {{$loop->first ? 'active':'' }}">
-                                                    <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}" alt="...">
+                                                    <img src="{{ asset('storage/'.$photo->photo_name.'.'.$photo->photo_type) }}" alt="...">
                                                     <div class="carousel-caption">
                                                     </div>
                                                 </div>

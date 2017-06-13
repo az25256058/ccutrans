@@ -26,7 +26,7 @@
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
     <!-- Bootstrap Material Design -->
-    <link rel="stylesheet" type="text/css" href="{{  asset('css/bootstrap-material-design.min.css')  }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-material-design.min.css')  }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/ripples.min.css') }}">
 
     <!-- UIkit CSS -->

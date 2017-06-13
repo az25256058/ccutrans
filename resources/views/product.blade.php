@@ -57,7 +57,7 @@
                     <div class="uk-card-media-top" style="height: 150px; overflow: hidden;">
                         @php($photo = $product->photos()->get()->first())
                         <a href="{{url('detail/'.$product->id)}}">
-                        <img src="storage/{{$photo->photo_name}}.{{$photo->photo_type}}" class="img-thumbnail product_pic"
+                        <img src="{{ asset('storage/'.$photo->photo_name.'.'.$photo->photo_type) }}" class="img-thumbnail product_pic"
                              style="max-height: 150px;"></a>
                     </div>
                     <div class="uk-card-body" style="padding: 5px;">
